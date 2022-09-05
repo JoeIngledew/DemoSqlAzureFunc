@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-
-namespace Demo.SqlInsertFunc;
+﻿namespace Demo.SqlInsertFunc;
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -18,27 +17,36 @@ public static class InsertRecord
 {
     [FunctionName("InsertRecord")]
     public static async Task<IActionResult> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+        [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
         ILogger log,
-        [Sql("demo.Expert", ConnectionStringSetting = "SqlConnectionString")] IAsyncCollector<Expert> expertCollector,
-        [Sql("demo.Expertise", ConnectionStringSetting = "SqlConnectionString")] IAsyncCollector<Expertise> expertiseCollector,
-        [Sql("demo.InstitutionOrSector", ConnectionStringSetting = "SqlConnectionString")] IAsyncCollector<InstitutionOrSector> iosCollector,
+        [Sql("experts.Expert", ConnectionStringSetting = "SqlConnectionString")] IAsyncCollector<OutputExpert> expertCollector,
+        [Sql("experts.Expertise", ConnectionStringSetting = "SqlConnectionString")] IAsyncCollector<Expertise> expertiseCollector,
+        [Sql("experts.InstitutionOrSector", ConnectionStringSetting = "SqlConnectionString")] IAsyncCollector<InstitutionOrSector> iosCollector,
         CancellationToken ct)
     {
         log.LogInformation("C# HTTP trigger function processed a request.");
 
         var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-        var data = JsonConvert.DeserializeObject<Expert>(requestBody);
+        var data = JsonConvert.DeserializeObject<InputExpert>(requestBody);
         
         var expertId = Guid.NewGuid();
         data.Id = expertId;
+        var outputExpert = new OutputExpert
+        {
+            CreatedDate = data.CreatedDate,
+            Email = data.Email,
+            FullName = data.FullName,
+            Id = expertId,
+            InstitutionDetails = data.InstitutionDetails
+        };
 
-        await expertCollector.AddAsync(data, ct);
+        await expertCollector.AddAsync(outputExpert, ct);
         await expertCollector.FlushAsync(ct);
         
         var expertiseTasks = data.Expertise.Select(async x =>
         {
             x.ExpertId = expertId;
+            x.Id = Guid.NewGuid();
             await expertiseCollector.AddAsync(x, ct);
         });
         await Task.WhenAll(expertiseTasks);
@@ -47,6 +55,7 @@ public static class InsertRecord
         var iosTasks = data.InstitutionOrSectors.Select(async x =>
         {
             x.ExpertId = expertId;
+            x.Id = Guid.NewGuid();
             await iosCollector.AddAsync(x, ct);
         });
         await Task.WhenAll(iosTasks);
@@ -56,7 +65,16 @@ public static class InsertRecord
     }
 }
 
-public class Expert
+public class OutputExpert
+{
+    public Guid Id { get; set; }
+    public string FullName { get; set; } = "";
+    public string Email { get; set; } = "";
+    public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+    public string? InstitutionDetails { get; set; }
+}
+
+public class InputExpert
 {
     public Guid Id { get; set; }
     public string FullName { get; set; } = "";
