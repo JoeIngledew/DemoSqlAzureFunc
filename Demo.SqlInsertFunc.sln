@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.SqlInsertFunc", "Demo.SqlInsertFunc\Demo.SqlInsertFunc.csproj", "{69EEEDF4-C990-4961-AD9C-0BE72BA6F304}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.SqlInsertFunc.Tests", "Demo.SqlInsertFunc.Tests\Demo.SqlInsertFunc.Tests.csproj", "{24D52901-1FBD-41AB-BA9C-F5B81428C65E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{69EEEDF4-C990-4961-AD9C-0BE72BA6F304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69EEEDF4-C990-4961-AD9C-0BE72BA6F304}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69EEEDF4-C990-4961-AD9C-0BE72BA6F304}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69EEEDF4-C990-4961-AD9C-0BE72BA6F304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24D52901-1FBD-41AB-BA9C-F5B81428C65E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24D52901-1FBD-41AB-BA9C-F5B81428C65E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24D52901-1FBD-41AB-BA9C-F5B81428C65E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24D52901-1FBD-41AB-BA9C-F5B81428C65E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
