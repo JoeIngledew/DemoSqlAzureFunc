@@ -2,7 +2,7 @@
 
 ## Running the application
 
-### Set up local settings
+### Set up local environment
 
  - Ensure you have [Azure functions core tools](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=v4%2Cwindows%2Ccsharp%2Cportal%2Cbash) v4 installed
  - Create a local.settings.json file in the Demo.SqlInsertFunc project
