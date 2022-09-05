@@ -82,10 +82,10 @@ public class InputExpert
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     public string? InstitutionDetails { get; set; }
     
-    public IEnumerable<Expertise> Expertise { get; set; }
-        = Enumerable.Empty<Expertise>();
-    public IEnumerable<InstitutionOrSector> InstitutionOrSectors { get; set; } 
-        = Enumerable.Empty<InstitutionOrSector>();
+    public ICollection<Expertise> Expertise { get; set; }
+        = new List<Expertise>();
+    public ICollection<InstitutionOrSector> InstitutionOrSectors { get; set; } 
+        = new List<InstitutionOrSector>();
 }
 
 public class Expertise
